@@ -25,4 +25,3 @@ class TelegramUser(TimeBasedModel):
     phone = models.CharField(max_length=12, unique=True)
     chat_id = models.BigIntegerField(verbose_name="Чат пользователя", default=0)
     chanel_id = models.BigIntegerField(verbose_name="Канал пользователя", default=0)
-
