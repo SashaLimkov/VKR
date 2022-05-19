@@ -7,24 +7,22 @@ API_VERSION = "v3"
 SCOPES = ["https://www.googleapis.com/auth/calendar"]
 
 service = create_service(CLIENT_SECRET_FIlE, API_NAME, API_VERSION, SCOPES)
-"""
-Create calendar
-"""
 
 
-def create_calendar(worker, calendar_name):
+def create_calendar(worker, calendar_name: str):
+    # need to add response to database
     request_body = {
         "summary": f"{calendar_name}"
     }
-
     response = worker.calendars().insert(body=request_body).execute()
     return response
 
 
-"""
-Delete calendar by id
-"""
-# service.calendars().delete(calendarId = "9ps3d5gk3q4u7n1geevivt4500@group.calendar.google.com").execute()
+def delete_calendar(worker, calendar_id: str):
+    print(1)
+    return worker.calendars().delete(calendarId=calendar_id).execute()
+
+
 """
 Get calendars list
 """
@@ -39,5 +37,6 @@ Get calendars list
 #         break
 # for calendar_id in ids_:
 #     print(calendar_id)
-if __name__ == '__main__':
-    pprint(create_calendar(worker=service, calendar_name="Хирург"))
+# if __name__ == '__main__':
+    # pprint(create_calendar(worker=service, calendar_name="Хирург"))
+    # pprint(delete_calendar(worker=service, calendar_id="me0ea2ia1po7t83vmscm09jek8@group.calendar.google.com"))
