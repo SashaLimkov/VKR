@@ -1,12 +1,9 @@
-import pickle
 import os
-from datetime import datetime
-from datetime import date
+import pickle
 
-from google_auth_oauthlib.flow import Flow, InstalledAppFlow
-from googleapiclient.discovery import build
-from googleapiclient.http import MediaFileUpload, MediaIoBaseDownload
 from google.auth.transport.requests import Request
+from google_auth_oauthlib.flow import InstalledAppFlow
+from googleapiclient.discovery import build
 
 
 def create_service(client_secret_file, api_name, api_version, *scopes):
@@ -51,7 +48,6 @@ def create_service(client_secret_file, api_name, api_version, *scopes):
         print(f'Failed to create service instance for {API_SERVICE_NAME}')
         os.remove(os.path.join(working_dir, token_dir, pickle_file))
         return None
-
 
 # def convert_to_RFC_datetime(year=1900, month=1, day=1, hour=0, minute=0):
 #     dt = datetime(year, month, day, hour, minute, 0).isoformat() + 'Z'
