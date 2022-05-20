@@ -1,5 +1,4 @@
 U_APPOINTMENT = "Запись на прием"
-U_FEEL_STROKE = "Подозреваю инсульт"
 U_FEEL_INJURY = "Травма"
 U_INJURY = "У человека травма"
 U_INJURY_BLEEDING = "Сильное кровотечение"
