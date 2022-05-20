@@ -8,6 +8,7 @@ def create_calendar(calendar_name: str):
     worker = connect_to_calendar()
     request_body = {
         "summary": f"{calendar_name}",
+        "timeZone": "Europe/Moscow"
     }
     response = worker.calendars().insert(body=request_body).execute()
     return response
