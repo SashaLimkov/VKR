@@ -1,5 +1,6 @@
 import os
 import pickle
+from datetime import datetime, date, time
 
 from google.auth.transport.requests import Request
 from google_auth_oauthlib.flow import InstalledAppFlow
@@ -46,17 +47,24 @@ def create_service(client_secret_file, api_name, api_version, *scopes):
         os.remove(os.path.join(working_dir, token_dir, pickle_file))
         return None
 
-# def convert_to_RFC_datetime(year=1900, month=1, day=1, hour=0, minute=0):
-#     dt = datetime(year, month, day, hour, minute, 0).isoformat() + 'Z'
-#     return dt
-#
-#
-# def convert_from_RFC(date_: str):
-#     date_dict = {}
-#     input_date = date_.split("T")
-#     date_ = date.fromisoformat(input_date[0])
-#     date_dict["year"] = date_.year
-#     date_dict["month"] = date_.month
-#     date_dict["day"] = date_.day
-#     date_dict["hour"] = int(input_date[1].split(":")[0])
-#     return date_dict
+
+def convert_to_rfc_datetime(selected_date: tuple, selected_time: tuple):
+    hour, minute = selected_time
+    dt = f"{date(*selected_date)}T{time(hour, minute)}+03:00"
+    print(dt)
+    return dt
+
+
+def convert_from_rfc(date_: str):
+    date_dict = {}
+    input_date = date_.split("T")
+    date_ = date.fromisoformat(input_date[0])
+    date_dict["year"] = date_.year
+    date_dict["month"] = date_.month
+    date_dict["day"] = date_.day
+    date_dict["hour"] = int(input_date[1].split(":")[0])
+    return date_dict
+
+
+if __name__ == '__main__':
+    print(convert_to_rfc_datetime((2022, 5, 20), (3, 50)))
