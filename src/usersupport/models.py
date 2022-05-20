@@ -20,7 +20,7 @@ class TelegramUser(TimeBasedModel):
     id = models.AutoField(primary_key=True)
     user_id = models.BigIntegerField(unique=True, verbose_name="UserID")
     name = models.CharField(max_length=255, verbose_name="UserName")
-    user_role = models.CharField(max_length=255, verbose_name="Роль", default="пользователь")
+    role = models.CharField(max_length=255, verbose_name="Роль", default="пользователь")
     phone = models.CharField(max_length=12, unique=True)
     email = models.CharField(max_length=255, unique=True)
 
@@ -34,11 +34,13 @@ class Client(TimeBasedModel):
     user = models.ForeignKey(
         TelegramUser, on_delete=models.CASCADE, verbose_name="Телеграм Юзер"
     )
+    gender = models.CharField(max_length=3, verbose_name="Пол")
     height = models.IntegerField(verbose_name="Рост")
     weight = models.IntegerField(verbose_name="Вес")
+    age = models.IntegerField(verbose_name="Возраст")
     ims = models.IntegerField(verbose_name="ИМС")
-    prediction = models.CharField(max_length=5000, verbose_name="Предварительный диагноз")
-    additional = models.CharField(max_length=5000, verbose_name="Дополнительная информация")
+    prediction = models.CharField(max_length=5000, verbose_name="Предварительный диагноз", default="")
+    additional = models.CharField(max_length=5000, verbose_name="Дополнительная информация", default="")
 
 
 class RegWorker(TimeBasedModel):
@@ -70,6 +72,10 @@ class Doctor(TimeBasedModel):
 
 
 class UserQuestion(TimeBasedModel):
+    class Meta:
+        verbose_name = "Запрос на прием"
+        verbose_name_plural = "Запросы на прием"
+
     id = models.AutoField(primary_key=True)
     user = models.ForeignKey(
         TelegramUser, on_delete=models.CASCADE, verbose_name="Телеграм Юзер"

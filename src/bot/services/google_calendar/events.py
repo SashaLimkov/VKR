@@ -74,11 +74,11 @@ def get_events(calendar_id: str):
 if __name__ == '__main__':
     t = {
         "selected_date": (2022, 5, 20),
-        "start_time": (9, 15),
-        "end_time": (9, 30)
+        "start_time": (12, 32),
+        "end_time": (12, 43)
     }
-    create_google_event("Мансур", "Полноcтью здоров", t, "", "example@gmail.com")
-    time.sleep(10)
+    create_google_event("ФИО ПОЛЬЗОВАТЕЛЯ", "Полноcтью здоров", t, "", "example@gmail.com")
+    time.sleep(2)
     print(get_events("95onhp8luapfusk2ip1o3iksbk@group.calendar.google.com"))
 # def get_google_events(nickname):
 #     days = datetime.today()
