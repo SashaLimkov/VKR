@@ -8,7 +8,6 @@ class UsersAdmin(admin.ModelAdmin):
         "id",
         "user_id",
         "name",
-        "role",
         "phone",
         "email",
         "created_at",

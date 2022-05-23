@@ -9,10 +9,10 @@ def select_user(user_id) -> TelegramUser:
 
 
 @sync_to_async
-def add_user(user_id, name, role, phone, email):
+def add_user(user_id, name, phone, email):
     try:
         return TelegramUser(
-            user_id=user_id, name=name, role=role if role else 'пользователь', phone=phone, email=email
+            user_id=user_id, name=name, phone=phone, email=email
         ).save()
     except Exception as e:
         print(e)

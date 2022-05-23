@@ -20,7 +20,6 @@ class TelegramUser(TimeBasedModel):
     id = models.AutoField(primary_key=True)
     user_id = models.BigIntegerField(unique=True, verbose_name="UserID")
     name = models.CharField(max_length=255, verbose_name="UserName")
-    role = models.CharField(max_length=255, verbose_name="Роль", default="пользователь")
     phone = models.CharField(max_length=12, unique=True)
     email = models.CharField(max_length=255, unique=True)
 
