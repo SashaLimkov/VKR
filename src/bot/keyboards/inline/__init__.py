@@ -1,1 +1,1 @@
-from .client_reg import *
+from .telegram_user_registration import *

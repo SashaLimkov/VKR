@@ -1,6 +1,6 @@
 from aiogram import Dispatcher
 from aiogram import filters
-from bot.handlers.user import cleaner, client
+from bot.handlers.user import cleaner, telegram_user
 from bot.states import TelegramUserRegistration
 
 
