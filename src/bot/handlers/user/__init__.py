@@ -1,13 +1,7 @@
 from aiogram import Dispatcher
-from aiogram import filters
-from bot.handlers.user import cleaner, telegram_user
-from bot.states import TelegramUserRegistration
+from bot.handlers.user import cleaner,telegram_user
 
 
 def setup(dp: Dispatcher):
-    dp.register_message_handler(client.start_command, filters.CommandStart)
-    dp.register_callback_query_handler(client.reg_client, filters.Text("reg"))
-    dp.register_message_handler(client.get_phone, state=TelegramUserRegistration.name)
-    dp.register_message_handler(client.check_phone, state=TelegramUserRegistration.phone)
-    dp.register_message_handler(client.check_email, state=TelegramUserRegistration.email)
+    telegram_user.setup(dp)
     dp.register_message_handler(cleaner.clean_s)
