@@ -31,13 +31,13 @@ class Client(TimeBasedModel):
 
     id = models.AutoField(primary_key=True)
     user = models.ForeignKey(
-        TelegramUser, on_delete=models.CASCADE, verbose_name="Телеграм Юзер"
+        TelegramUser, on_delete=models.CASCADE, verbose_name="Телеграм Юзер", unique=True
     )
     gender = models.CharField(max_length=3, verbose_name="Пол")
     height = models.IntegerField(verbose_name="Рост")
     weight = models.IntegerField(verbose_name="Вес")
     age = models.IntegerField(verbose_name="Возраст")
-    ims = models.IntegerField(verbose_name="ИМС")
+    ims = models.CharField(max_length=255, verbose_name="ИМС")
     prediction = models.CharField(max_length=5000, verbose_name="Предварительный диагноз", default="")
     additional = models.CharField(max_length=5000, verbose_name="Дополнительная информация", default="")
 
@@ -62,7 +62,7 @@ class Doctor(TimeBasedModel):
 
     id = models.AutoField(primary_key=True)
     user = models.ForeignKey(
-        TelegramUser, on_delete=models.CASCADE, verbose_name="Телеграм Юзер"
+        TelegramUser, on_delete=models.CASCADE, verbose_name="Телеграм Юзер", unique=True
     )
     education = models.CharField(max_length=5000, verbose_name="Образование")
     experience = models.CharField(max_length=255, verbose_name="Стаж")

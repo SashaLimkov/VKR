@@ -4,15 +4,16 @@ from pprint import pprint
 
 from bot.services.google_calendar.Google import convert_to_rfc_datetime
 from bot.services.google_calendar.log_in import connect_to_calendar
+from usersupport.models import Doctor, Client
 
 
-def create_google_event(user_name: str, prediction: str, date_time: dict, doctor, user_email):
-    calendar_id = "95onhp8luapfusk2ip1o3iksbk@group.calendar.google.com"  # doctor.calendar_id  #
-    email = "magl.galimov@gmail.com"  # doctor.email  #
+def create_google_event(prediction: str, date_time: dict, doctor: Doctor, client:Client):
+    calendar_id = doctor.calendar_id
+    email = doctor.user.email
     worker = connect_to_calendar()
 
     event = {
-        'summary': user_name,
+        'summary': client.user.name,
         'description': prediction,
         'start': {
             'dateTime': convert_to_rfc_datetime(selected_date=date_time["selected_date"],
@@ -26,7 +27,7 @@ def create_google_event(user_name: str, prediction: str, date_time: dict, doctor
         },
         'attendees': [
             {'email': email},
-            {'email': user_email},
+            {'email': client.user.email},
         ],
         'reminders': {
             'useDefault': False,
@@ -39,7 +40,7 @@ def create_google_event(user_name: str, prediction: str, date_time: dict, doctor
     }
     event = worker.events().insert(calendarId=calendar_id,
                                    body=event).execute()
-    print(f'Event created {user_name}: {event.get("htmlLink")}')
+    print(f'Event created {client.user.name}: {event.get("htmlLink")}')
     return event.get("htmlLink")
 
 
@@ -70,16 +71,15 @@ def get_events(calendar_id: str):
             break
     return all_events
 
-
 # if __name__ == '__main__':
-    # t = {
-    #     "selected_date": (2022, 5, 20),
-    #     "start_time": (12, 32),
-    #     "end_time": (12, 43)
-    # }
-    # create_google_event("ФИО ПОЛЬЗОВАТЕЛЯ", "Полноcтью здоров", t, "", "example@gmail.com")
-    # time.sleep(2)
-    # print(get_events("95onhp8luapfusk2ip1o3iksbk@group.calendar.google.com"))
+# t = {
+#     "selected_date": (2022, 5, 20),
+#     "start_time": (12, 32),
+#     "end_time": (12, 43)
+# }
+# create_google_event("ФИО ПОЛЬЗОВАТЕЛЯ", "Полноcтью здоров", t, "", "example@gmail.com")
+# time.sleep(2)
+# print(get_events("95onhp8luapfusk2ip1o3iksbk@group.calendar.google.com"))
 # def get_google_events(nickname):
 #     days = datetime.today()
 #     days += timedelta(days=1)

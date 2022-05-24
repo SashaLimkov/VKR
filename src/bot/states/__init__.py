@@ -1,2 +1,2 @@
-from .user_auth import *
+from .client_actions import *
 from .registration import *

@@ -1,3 +1,5 @@
+from typing import List
+
 from asgiref.sync import sync_to_async
 
 from usersupport.models import Doctor
@@ -19,3 +21,10 @@ def add_doctor(user, education, experience, profession, photo_id, calendar_id):
     except Exception as e:
         print(e)
         return select_doctor(user)
+
+
+@sync_to_async
+def select_all_doctors() -> List[Doctor]:
+    doctors = Doctor.objects.all()
+    return doctors
+

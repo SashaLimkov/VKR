@@ -1,5 +1,4 @@
 from aiogram import types
-from aiogram.dispatcher import FSMContext
 
 from bot.config.loader import bot, user_data
 
