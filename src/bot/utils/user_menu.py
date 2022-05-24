@@ -38,3 +38,7 @@ async def send_user_menu(user: TelegramUser):
             reply_markup=await ik.reg_client()
         )
         user_data[user.user_id]["messages_to_delete"].append(sent_message.message_id)
+
+
+async def get_info_from_user_data(user_id, key):
+    return user_data[user_id][key] if key in user_data[user_id] else ""

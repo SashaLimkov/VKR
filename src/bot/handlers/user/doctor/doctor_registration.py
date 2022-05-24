@@ -14,7 +14,7 @@ from usersupport.models import TelegramUser
 
 
 async def setup_doctor_command(message: types.Message):
-    await cleaner.delete_command_message(message=message)
+    await cleaner.delete_user_message(message=message)
     sent_message = await bot.send_message(
         chat_id=message.from_user.id,
         text=td.DOCTOR_REG.format(name=message.from_user.first_name),

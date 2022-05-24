@@ -3,7 +3,7 @@ from aiogram import types
 from bot.config.loader import bot, user_data
 
 
-async def delete_command_message(message: types.Message):
+async def delete_user_message(message: types.Message):
     await bot.delete_message(
         chat_id=message.chat.id,
         message_id=message.message_id
