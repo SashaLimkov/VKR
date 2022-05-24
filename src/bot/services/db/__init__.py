@@ -1,1 +1,1 @@
-from .user import *
+from .telegram_user import *

@@ -20,8 +20,16 @@ GET_CORRECT_PHONE = "Введите корректный номер"
 GET_EMAIL = "Введите ваш email"
 GET_CORRECT_EMAIL = "Введите корректный email"
 GET_READY = "Почти готово, осталось получить самые важный и актуальные данные о вас."
-DOCTOR_REG_MENU = "{name}, здравствуйте!\n " \
+GET_EDUCATION = "Введите краткую информацию о вашем образований"
+GET_EXPERIENCE = "Введите ваш стаж работы по профессии (n лет)"
+GET_PROFESSION = "Введите занимаимаю должность"
+GET_PHOTO = "Пришлите ваше фото"
+DOCTOR_REG_MENU = "{name}, здравствуйте!\n" \
                   "Пожалуйста, заполните следующие данные о себе:\n" \
-                  "<b>Образование</b>:{education}\n" \
-                  "<b>Стаж</b>:{experience}\n" \
-                  "<b>Профессия</b>:{profession}\n"
+                  "<b>Образование</b>: {education}\n" \
+                  "<b>Стаж</b>: {experience}\n" \
+                  "<b>Профессия</b>: {profession}\n"
+DOCTOR_PROFILE = "{name}, здравствуйте!\n\n" \
+                  "<b>Образование</b>: {education}\n" \
+                  "<b>Стаж</b>: {experience}\n" \
+                  "<b>Профессия</b>: {profession}\n"

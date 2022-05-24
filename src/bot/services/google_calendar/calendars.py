@@ -1,6 +1,6 @@
 from pprint import pprint
 
-from log_in import connect_to_calendar
+from bot.services.google_calendar.log_in import connect_to_calendar
 
 
 def create_calendar(calendar_name: str):
@@ -38,9 +38,9 @@ def get_calendars():
     current_calendars.pop(0)
     return current_calendars
 
-
-if __name__ == '__main__':
-    # print(create_calendar(calendar_name="Хирург"))
-    # print(create_calendar(calendar_name="Терапевт"))
-    pprint(get_calendars())
-    # print(delete_calendar(worker=service, calendar_id="me0ea2ia1po7t83vmscm09jek8@group.calendar.google.com"))
+#
+# if __name__ == '__main__':
+#     # print(create_calendar(calendar_name="Хирург"))
+#     # print(create_calendar(calendar_name="Терапевт"))
+#     pprint(get_calendars())
+#     # print(delete_calendar(worker=service, calendar_id="me0ea2ia1po7t83vmscm09jek8@group.calendar.google.com"))

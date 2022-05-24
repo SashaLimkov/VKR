@@ -68,6 +68,7 @@ class Doctor(TimeBasedModel):
     experience = models.CharField(max_length=255, verbose_name="Стаж")
     profession = models.CharField(max_length=255, verbose_name="Должность")
     photo_id = models.CharField(max_length=500, verbose_name="ID фото в телеграмм")
+    calendar_id = models.CharField(max_length=500, verbose_name="ID Календаря")
 
 
 class UserQuestion(TimeBasedModel):
