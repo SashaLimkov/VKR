@@ -33,6 +33,7 @@ async def start_command(message: types.Message):
         )
         mes_to_del = [sent_message.message_id]
         user_data[message.from_user.id] = {"messages_to_delete": mes_to_del}
+        await TelegramUserRegistration.registration.set()
 
 
 async def reg_client(call: types.CallbackQuery):
