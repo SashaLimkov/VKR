@@ -22,6 +22,7 @@ async def start_command(message: types.Message):
     user_id = message.chat.id
     user: TelegramUser = await db.select_user(user_id=user_id)
     if user:
+        await delete_messages(user_id=user_id)
         await send_user_menu(user=user)
     else:
         sent_message = await bot.send_message(
@@ -65,7 +66,7 @@ async def check_phone(message: types.Message, state: FSMContext):
 async def check_email(message: types.Message, state: FSMContext):
     user_data[message.chat.id]["messages_to_delete"].append(message.message_id)
     if await is_email_valid(message.text):
-        await bot.send_message(chat_id=message.chat.id, text=td.GET_READY)
+        sent_message = await bot.send_message(chat_id=message.chat.id, text=td.GET_READY)
         data = await state.get_data()
         name, phone, email = data.get("user_name"), data.get("phone"), message.text
         await db.add_user(
@@ -76,6 +77,7 @@ async def check_email(message: types.Message, state: FSMContext):
         )
         await state.finish()
         await delete_messages(user_id=message.from_user.id)
+        user_data[message.chat.id]["messages_to_delete"].append(sent_message.message_id)
     else:
         sent_message = await bot.send_message(chat_id=message.chat.id, text=td.GET_CORRECT_EMAIL)
         user_data[message.chat.id]["messages_to_delete"].append(sent_message.message_id)

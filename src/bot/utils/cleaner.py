@@ -13,6 +13,7 @@ async def delete_command_message(message: types.Message):
 
 async def delete_messages(user_id):
     message_id_list = user_data[user_id]["messages_to_delete"]
+    print(message_id_list)
     for mes_id in message_id_list:
         try:
             await bot.delete_message(
