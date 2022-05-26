@@ -8,8 +8,10 @@ from bot.data import callback_data as cd
 
 def setup(dp: Dispatcher):
     dp.register_callback_query_handler(client_registration.start_client, filters.Text("client_reg"))
-    dp.register_callback_query_handler(client_registration.start_register_client, filters.Text(startswith="c_"))
-    dp.register_callback_query_handler(client_registration.get_sex, filters.Text(startswith="sex_"))
+    dp.register_callback_query_handler(client_registration.start_register_client, cd.reg.filter(),
+                                       state=ClientRegistration.registration)
+    dp.register_callback_query_handler(client_registration.get_sex, filters.Text(startswith="sex_"),
+                                       state=ClientRegistration.registration)
     dp.register_message_handler(client_registration.get_height, state=ClientRegistration.height)
     dp.register_message_handler(client_registration.get_weight, state=ClientRegistration.weight)
     dp.register_message_handler(client_registration.get_age, state=ClientRegistration.age)

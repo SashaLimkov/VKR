@@ -9,6 +9,7 @@ class TelegramUserRegistration(StatesGroup):
 
 
 class DoctorRegistration(StatesGroup):
+    registration = State()
     secret_key = State()
     education = State()
     experience = State()
@@ -17,6 +18,7 @@ class DoctorRegistration(StatesGroup):
 
 
 class ClientRegistration(StatesGroup):
+    registration = State()
     gender = State()
     height = State()
     weight = State()

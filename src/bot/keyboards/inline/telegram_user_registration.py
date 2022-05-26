@@ -23,7 +23,7 @@ async def get_reg_menu(user_id):
     for index, text in enumerate(ld.REG_TG_USER):
         keyboard.add(InlineKeyboardButton(
             text=text,
-            callback_data=cd.reg_tg_user.new(
+            callback_data=cd.reg.new(
                 action=index + 1
             )
         ))
@@ -32,7 +32,7 @@ async def get_reg_menu(user_id):
         keyboard.add(
             InlineKeyboardButton(
                 text="Подтвердить данные",
-                callback_data=cd.reg_tg_user.new(
+                callback_data=cd.reg.new(
                     action="submit"
                 )
             )

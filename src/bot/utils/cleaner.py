@@ -10,6 +10,16 @@ async def delete_user_message(message: types.Message):
     )
 
 
+async def delete_menu_mes(user_id, message_id):
+    try:
+        await bot.delete_message(
+            chat_id=user_id,
+            message_id=message_id
+        )
+    except Exception as e:
+        print(e)
+
+
 async def delete_messages(user_id):
     try:
         message_id_list = user_data[user_id]["messages_to_delete"]
