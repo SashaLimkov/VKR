@@ -3,6 +3,10 @@ from django.db import models
 
 # Create your models here.
 class TimeBasedModel(models.Model):
+    """
+    Время создания или обновления записи в бд
+    """
+
     class Meta:
         abstract = True
 
@@ -13,6 +17,10 @@ class TimeBasedModel(models.Model):
 
 
 class TelegramUser(TimeBasedModel):
+    """
+    Пользователь телеграма и его контактные данные
+    """
+
     class Meta:
         verbose_name = "Телеграм Юзер"
         verbose_name_plural = "Телеграм Юзеры"
@@ -25,6 +33,9 @@ class TelegramUser(TimeBasedModel):
 
 
 class Client(TimeBasedModel):
+    """
+    Клиент|пользователь клиники, содержит антропараметрические данные конкретного пользователя телеграмма
+    """
     class Meta:
         verbose_name = "Клиент"
         verbose_name_plural = "Клиенты"
@@ -43,6 +54,7 @@ class Client(TimeBasedModel):
 
 
 class RegWorker(TimeBasedModel):
+    """Регистрационный работник с его каналом и чатом"""
     class Meta:
         verbose_name = "Регистрационный работник"
         verbose_name_plural = "Регистрационные работники"
@@ -56,6 +68,7 @@ class RegWorker(TimeBasedModel):
 
 
 class Doctor(TimeBasedModel):
+    """Анкета доктора с информацией о нем и календарем"""
     class Meta:
         verbose_name = "Врач"
         verbose_name_plural = "Врачи"
@@ -72,6 +85,7 @@ class Doctor(TimeBasedModel):
 
 
 class UserQuestion(TimeBasedModel):
+    """Запрос пользователя на прием"""
     class Meta:
         verbose_name = "Запрос на прием"
         verbose_name_plural = "Запросы на прием"
