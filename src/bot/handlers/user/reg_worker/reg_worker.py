@@ -2,7 +2,7 @@ from aiogram import types
 from aiogram.dispatcher import FSMContext
 
 from bot.config import config
-from bot.config.loader import bot, user_data
+from bot.config.loader import bot, user_data, dp
 from bot.services.db import select_user
 from bot.services.db.rworker import add_rworker, update_chanel_id, get_rworker
 from bot.states import RWorkerRegistration
@@ -59,5 +59,30 @@ async def update_chanel(message: types.Message):
         await update_chanel_id(user=user, chanel_id=chanel_id)
 
 
-async def all(message: types.Message):
-    pass
+async def accept(call: types.CallbackQuery):
+    client_id = call.data.replace("agree_", "")
+    print(user_data[client_id]["cd"])
+    # client_usr: TelegramUser = await telegram_user.select_user(user_id=message.chat.id)
+    # doc_usr = await telegram_user.select_user(user_id=user_data[message.chat.id]["doc_id"])
+    # cli: Client = await client.select_client(user=client_usr)
+    # doc: Doctor = await doctor.select_doctor(user=doc_usr)
+    # addition = message.text
+    # segodnya = datetime.date.today()
+    # now = datetime.datetime.now() + datetime.timedelta(minutes=6)
+    # five_m = now + datetime.timedelta(minutes=15)
+    # t = {
+    #     "selected_date": (segodnya.year, segodnya.month, segodnya.day),
+    #     "start_time": (now.hour, now.minute),
+    #     "end_time": (five_m.hour, five_m.minute)
+    # }
+    # res = create_google_event(
+    #     prediction=f"{cli.ims}\nпредварительный диагноз не поставлен",
+    #     doctor=doc,
+    #     client=cli,
+    #     date_time=t
+    # )
+    # await bot.send_message(
+    #     message.chat.id,
+    #     text=hlink("Ссылка на запись", res)
+    # )
+    # await state.finish()

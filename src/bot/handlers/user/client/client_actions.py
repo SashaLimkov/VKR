@@ -81,31 +81,7 @@ async def choose_datetime(call: types.CallbackQuery, callback_data: dict, state:
     # })
 
 
-async def get_client_addition(message: types.Message, state: FSMContext):
-    client_usr: TelegramUser = await telegram_user.select_user(user_id=message.chat.id)
-    doc_usr = await telegram_user.select_user(user_id=user_data[message.chat.id]["doc_id"])
-    cli: Client = await client.select_client(user=client_usr)
-    doc: Doctor = await doctor.select_doctor(user=doc_usr)
-    addition = message.text
-    segodnya = datetime.date.today()
-    now = datetime.datetime.now() + datetime.timedelta(minutes=6)
-    five_m = now + datetime.timedelta(minutes=15)
-    t = {
-        "selected_date": (segodnya.year, segodnya.month, segodnya.day),
-        "start_time": (now.hour, now.minute),
-        "end_time": (five_m.hour, five_m.minute)
-    }
-    res = create_google_event(
-        prediction=f"{cli.ims}\nпредварительный диагноз не поставлен",
-        doctor=doc,
-        client=cli,
-        date_time=t
-    )
-    await bot.send_message(
-        message.chat.id,
-        text=hlink("Ссылка на запись", res)
-    )
-    await state.finish()
+
 
 
 async def choose_date(call: types.CallbackQuery, callback_data: dict, state: FSMContext):

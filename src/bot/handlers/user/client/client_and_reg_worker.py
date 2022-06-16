@@ -2,7 +2,7 @@ from aiogram import types
 from aiogram.dispatcher import FSMContext
 from aiogram.utils.markdown import hlink
 
-from bot.config.loader import bot
+from bot.config.loader import bot, user_data
 from bot.data import text_data as td
 from bot.keyboards import inline as ik
 
@@ -15,6 +15,8 @@ async def skip_test(call: types.CallbackQuery, state: FSMContext):
     await call.answer(text="Происходит процесс записи, пожалуйста подождите 5 секунд", show_alert=True, cache_time=7)
     data = await state.get_data()
     cd = data.get("cd")
+    user_data[call.message.chat.id]["cd"] = cd
+    print(user_data)
     user: TelegramUser = await telegram_user.select_user(user_id=call.message.chat.id)
     doc = await doctor.select_doctor_by_id(cd["doc_id"])
     doc: Doctor = doc[0]
@@ -34,7 +36,7 @@ async def skip_test(call: types.CallbackQuery, state: FSMContext):
         chat_id=rw.chanel_id,
         caption=text,
         document=get_docx(tg_client),
-        reply_markup=await ik.test()
+        reply_markup=await ik.accept(user_id=tg_client.user.user_id)
     )
     await bot.edit_message_text(
         chat_id=call.message.chat.id,

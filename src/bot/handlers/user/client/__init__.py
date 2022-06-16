@@ -34,4 +34,4 @@ def setup(dp: Dispatcher):
     dp.register_callback_query_handler(client_and_reg_worker.skip_test,
                                        filters.Text("skip"),
                                        state=ClientRequest.waiting_for_answer)
-    dp.register_message_handler(client_actions.get_client_addition, state=ClientRequest.additional)
+    # dp.register_message_handler(client_actions.get_client_addition, state=ClientRequest.additional)
