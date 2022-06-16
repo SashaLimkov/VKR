@@ -8,3 +8,4 @@ def setup(dp: Dispatcher):
     doctor.setup(dp)
     client.setup(dp)
     dp.register_message_handler(cleaner.clean_registration, state=TelegramUserRegistration.registration)
+

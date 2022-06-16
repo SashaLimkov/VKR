@@ -1,3 +1,4 @@
+import asyncio
 from typing import List
 
 from asgiref.sync import sync_to_async
@@ -28,3 +29,7 @@ def select_all_doctors() -> List[Doctor]:
     doctors = Doctor.objects.all()
     return doctors
 
+
+@sync_to_async
+def select_doctor_by_id(doc_id) -> Doctor:
+    return Doctor.objects.filter(id=doc_id)

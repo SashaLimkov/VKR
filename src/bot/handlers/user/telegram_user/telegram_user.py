@@ -5,6 +5,7 @@ from bot.config.loader import bot, user_data
 from bot.data import text_data as td
 from bot.keyboards import inline as ik
 from bot.services import db
+from bot.services.google_calendar.calendars import get_calendars
 from bot.states import TelegramUserRegistration
 from bot.utils.cleaner import delete_user_message, delete_messages
 from bot.utils.user_menu import send_user_menu, get_info_from_user_data
@@ -21,6 +22,7 @@ async def start_command(message: types.Message):
     await delete_user_message(message=message)
     user_id = message.chat.id
     user: TelegramUser = await db.select_user(user_id=user_id)
+    print(await get_calendars())
     if user_id not in user_data:
         user_data[user_id] = {}
     if user:

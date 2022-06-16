@@ -11,7 +11,6 @@ def create_google_event(prediction: str, date_time: dict, doctor: Doctor, client
     calendar_id = doctor.calendar_id
     email = doctor.user.email
     worker = connect_to_calendar()
-
     event = {
         'summary': client.user.name,
         'description': prediction,

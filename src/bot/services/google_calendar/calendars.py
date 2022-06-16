@@ -4,7 +4,6 @@ from bot.services.google_calendar.log_in import connect_to_calendar
 
 
 def create_calendar(calendar_name: str):
-    # need to add response to database
     worker = connect_to_calendar()
     request_body = {
         "summary": f"{calendar_name}",
@@ -19,7 +18,7 @@ def delete_calendar(calendar_id: str):
     return worker.calendars().delete(calendarId=calendar_id).execute()
 
 
-def get_calendars():
+async def get_calendars():
     worker = connect_to_calendar()
     current_calendars = {}
     page_token = None
@@ -39,8 +38,8 @@ def get_calendars():
     return current_calendars
 
 #
-# if __name__ == '__main__':
-#     # print(create_calendar(calendar_name="Хирург"))
-#     # print(create_calendar(calendar_name="Терапевт"))
-#     pprint(get_calendars())
-#     # print(delete_calendar(worker=service, calendar_id="me0ea2ia1po7t83vmscm09jek8@group.calendar.google.com"))
+if __name__ == '__main__':
+    # print(create_calendar(calendar_name="Хирург"))
+    # print(create_calendar(calendar_name="Терапевт"))
+    pprint(get_calendars())
+    # print(delete_calendar(worker=service, calendar_id="me0ea2ia1po7t83vmscm09jek8@group.calendar.google.com"))

@@ -19,6 +19,7 @@ def add_user(user_id, name, phone, email):
         return False
 
 
-@sync_to_async
-def update_role(user_id, role):
-    return TelegramUser.objects.filter(user_id=user_id).update(role="Врач")
+
+# @sync_to_async
+# def update_role(user_id):
+#     return TelegramUser.objects.filter(user_id=user_id).update(role="Врач")
