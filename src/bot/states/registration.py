@@ -23,3 +23,8 @@ class ClientRegistration(StatesGroup):
     height = State()
     weight = State()
     age = State()
+
+
+class RWorkerRegistration(StatesGroup):
+    registration = State()
+    secret_key = State()

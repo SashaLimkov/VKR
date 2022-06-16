@@ -5,6 +5,7 @@ from dotenv import load_dotenv, find_dotenv
 load_dotenv(find_dotenv())
 
 DOCTOR_SECRET_KEY = "22042doc"
+RW_SECRET_KEY = "22042rw"
 
 BOT_TOKEN = os.getenv("BOT_TOKEN")
 PGUSER = os.getenv("PGUSER")
