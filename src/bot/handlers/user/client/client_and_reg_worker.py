@@ -7,10 +7,12 @@ from bot.data import text_data as td
 from bot.keyboards import inline as ik
 
 from bot.services.db import rworker, client, telegram_user, doctor
+from bot.utils.docx_creator import get_docx
 from usersupport.models import RegWorker, Client, TelegramUser, Doctor
 
 
 async def skip_test(call: types.CallbackQuery, state: FSMContext):
+    await call.answer(text="Происходит процесс записи, пожалуйста подождите 5 секунд", show_alert=True, cache_time=7)
     data = await state.get_data()
     cd = data.get("cd")
     user: TelegramUser = await telegram_user.select_user(user_id=call.message.chat.id)
@@ -28,9 +30,10 @@ async def skip_test(call: types.CallbackQuery, state: FSMContext):
         time=cd["time"],
         timetable=hlink("распиание", doc.calendar_id)
     )
-    await bot.send_message(
+    await bot.send_document(
         chat_id=rw.chanel_id,
-        text=text,
+        caption=text,
+        document=get_docx(tg_client),
         reply_markup=await ik.test()
     )
     await bot.edit_message_text(

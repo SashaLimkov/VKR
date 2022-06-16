@@ -110,7 +110,8 @@ async def skip_test_or_no(callback_data):
         ),
         InlineKeyboardButton(
             text="Продолжить без теста",
-            callback_data="skip"
+            callback_data="skip",
+
         ))
     keyboard.add(InlineKeyboardButton(
         text="Назад",
