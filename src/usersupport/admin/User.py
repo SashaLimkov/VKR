@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from ..models import TelegramUser, Client, RegWorker, Doctor, UserQuestion
+from ..models import TelegramUser, Client, RegWorker, Doctor, UserRequest
 
 
 class UsersAdmin(admin.ModelAdmin):
@@ -45,16 +45,17 @@ class DoctorAdmin(admin.ModelAdmin):
         "experience",
         "profession",
         "photo_id",
+        "calendar_id"
     )
 
 
-class UserQAdmin(admin.ModelAdmin):
+class URequestAdmin(admin.ModelAdmin):
     list_display = (
-        "id",
-        "user",
-        "question",
-        "state",
-        "mes_id",
+        "client",
+        "file_name",
+        "date",
+        "time",
+        "doc_id",
     )
 
 
@@ -63,4 +64,4 @@ admin.site.register(TelegramUser, UsersAdmin)
 admin.site.register(Client, ClientAdmin)
 admin.site.register(RegWorker, RegWorkerAdmin)
 admin.site.register(Doctor, DoctorAdmin)
-admin.site.register(UserQuestion, UserQAdmin)
+admin.site.register(UserRequest, URequestAdmin)

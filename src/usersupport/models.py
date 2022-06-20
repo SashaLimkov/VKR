@@ -36,6 +36,7 @@ class Client(TimeBasedModel):
     """
     Клиент|пользователь клиники, содержит антропараметрические данные конкретного пользователя телеграмма
     """
+
     class Meta:
         verbose_name = "Клиент"
         verbose_name_plural = "Клиенты"
@@ -55,6 +56,7 @@ class Client(TimeBasedModel):
 
 class RegWorker(TimeBasedModel):
     """Регистрационный работник с его каналом и чатом"""
+
     class Meta:
         verbose_name = "Регистрационный работник"
         verbose_name_plural = "Регистрационные работники"
@@ -69,13 +71,14 @@ class RegWorker(TimeBasedModel):
 
 class Doctor(TimeBasedModel):
     """Анкета доктора с информацией о нем и календарем"""
+
     class Meta:
         verbose_name = "Врач"
         verbose_name_plural = "Врачи"
 
     id = models.AutoField(primary_key=True)
     user = models.ForeignKey(
-        TelegramUser, on_delete=models.CASCADE, verbose_name="Телеграм Юзер", unique=True
+        TelegramUser, on_delete=models.CASCADE, verbose_name="Телеграм Юзер"
     )
     education = models.CharField(max_length=5000, verbose_name="Образование")
     experience = models.CharField(max_length=255, verbose_name="Стаж")
@@ -84,18 +87,31 @@ class Doctor(TimeBasedModel):
     calendar_id = models.CharField(max_length=500, verbose_name="ID Календаря")
 
 
-class UserQuestion(TimeBasedModel):
-    """Запрос пользователя на прием"""
+class UserRequest(TimeBasedModel):
+    """Записи пользователей с информацией о них"""
+
     class Meta:
-        verbose_name = "Запрос на прием"
-        verbose_name_plural = "Запросы на прием"
+        verbose_name = "Запись пользователя"
+        verbose_name_plural = "Записи пользователей"
 
     id = models.AutoField(primary_key=True)
-    user = models.ForeignKey(
-        TelegramUser, on_delete=models.CASCADE, verbose_name="Телеграм Юзер"
+    client = models.ForeignKey(
+        Client,
+        on_delete=models.CASCADE,
+        verbose_name="Клиент"
     )
-    question = models.CharField(max_length=5000, verbose_name="Анкета")
-    state = models.CharField(
-        max_length=100, verbose_name="Состояние", default="Открытая заявка"
+    file_name = models.CharField(
+        max_length=200,
+        unique=True, verbose_name="Файл"
     )
-    mes_id = models.CharField(max_length=20000, unique=False, default="")
+    date = models.CharField(
+        max_length=100,
+        verbose_name="Дата"
+    )
+    time = models.CharField(
+        max_length=100,
+        verbose_name="Время"
+    )
+    doc_id = models.IntegerField(
+        verbose_name="ID Врача"
+    )

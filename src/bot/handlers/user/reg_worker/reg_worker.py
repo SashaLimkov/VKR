@@ -1,13 +1,18 @@
+import datetime
+
 from aiogram import types
 from aiogram.dispatcher import FSMContext
+from aiogram.utils.markdown import hlink
 
 from bot.config import config
 from bot.config.loader import bot, user_data, dp
-from bot.services.db import select_user
+from bot.services.db import select_user, user_request, client, telegram_user, doctor
 from bot.services.db.rworker import add_rworker, update_chanel_id, get_rworker
+from bot.services.google_calendar.events import create_google_event
 from bot.states import RWorkerRegistration
 from bot.utils import cleaner
 from bot.keyboards import reply as rk
+from usersupport.models import UserRequest, TelegramUser, Doctor, Client
 
 
 async def setup_rworker_command(message: types.Message):
@@ -60,29 +65,39 @@ async def update_chanel(message: types.Message):
 
 
 async def accept(call: types.CallbackQuery):
-    client_id = call.data.replace("agree_", "")
-    print(user_data[client_id]["cd"])
-    # client_usr: TelegramUser = await telegram_user.select_user(user_id=message.chat.id)
-    # doc_usr = await telegram_user.select_user(user_id=user_data[message.chat.id]["doc_id"])
-    # cli: Client = await client.select_client(user=client_usr)
-    # doc: Doctor = await doctor.select_doctor(user=doc_usr)
-    # addition = message.text
-    # segodnya = datetime.date.today()
-    # now = datetime.datetime.now() + datetime.timedelta(minutes=6)
-    # five_m = now + datetime.timedelta(minutes=15)
-    # t = {
-    #     "selected_date": (segodnya.year, segodnya.month, segodnya.day),
-    #     "start_time": (now.hour, now.minute),
-    #     "end_time": (five_m.hour, five_m.minute)
-    # }
-    # res = create_google_event(
-    #     prediction=f"{cli.ims}\nпредварительный диагноз не поставлен",
-    #     doctor=doc,
-    #     client=cli,
-    #     date_time=t
-    # )
-    # await bot.send_message(
-    #     message.chat.id,
-    #     text=hlink("Ссылка на запись", res)
-    # )
-    # await state.finish()
+    r_id = call.data.replace("agree_", "")
+    await call.answer()
+    r: UserRequest = await user_request.get_request(r_id)
+    cli: Client = r.client
+    doc: Doctor = await doctor.select_doctor_by_id(doc_id=r.doc_id)
+    addition = ""
+    day, month = r.date.split(".")
+    hour, minute = r.time.split("-")
+    segodnya = datetime.date.today()
+    now = datetime.datetime.now() + datetime.timedelta(minutes=6)
+    five_m = datetime.datetime(day=int(day), month=int(month), year=segodnya.year, hour=int(hour),
+                               minute=int(minute)) + datetime.timedelta(minutes=15)
+    t = {
+        "selected_date": (segodnya.year, int(month), int(day)),
+        "start_time": (int(hour), int(minute)),
+        "end_time": (five_m.hour, five_m.minute)
+    }
+    res = create_google_event(
+        prediction=f"{cli.ims}\nпредварительный диагноз не поставлен",
+        doctor=doc,
+        client=cli,
+        date_time=t,
+        file_name=r.file_name
+    )
+    await bot.edit_message_reply_markup(
+        chat_id=call.message.chat.id,
+        message_id=call.message.message_id,
+        reply_markup=None
+    )
+    await call.answer(
+        text="Запись подтверждена"
+    )
+    await bot.send_message(
+        chat_id=cli.user.user_id,
+        text=hlink("Ссылка на запись", res)
+    )

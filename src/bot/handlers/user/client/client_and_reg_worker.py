@@ -6,9 +6,9 @@ from bot.config.loader import bot, user_data
 from bot.data import text_data as td
 from bot.keyboards import inline as ik
 
-from bot.services.db import rworker, client, telegram_user, doctor
+from bot.services.db import rworker, client, telegram_user, doctor, user_request
 from bot.utils.docx_creator import get_docx
-from usersupport.models import RegWorker, Client, TelegramUser, Doctor
+from usersupport.models import RegWorker, Client, TelegramUser, Doctor, UserRequest
 
 
 async def skip_test(call: types.CallbackQuery, state: FSMContext):
@@ -23,6 +23,12 @@ async def skip_test(call: types.CallbackQuery, state: FSMContext):
     tg_client: Client = await client.select_client(user=user)
     rwokers = await rworker.get_all_rworker()
     rw: RegWorker = rwokers[0]
+    file_name = get_docx(tg_client)
+    document = open(f'{file_name}', mode='rb')
+    date = cd["date"]
+    time = cd["time"]
+    r: UserRequest = await user_request.add_request(client=tg_client, date=date, time=time, doc_id=doc.id,
+                                                    file_name=file_name)
     text = td.TEXT_TO_RW.format(
         fio=user.name,
         phone=user.phone,
@@ -35,9 +41,10 @@ async def skip_test(call: types.CallbackQuery, state: FSMContext):
     await bot.send_document(
         chat_id=rw.chanel_id,
         caption=text,
-        document=get_docx(tg_client),
-        reply_markup=await ik.accept(user_id=tg_client.user.user_id)
+        document=document,
+        reply_markup=await ik.accept(r_id=r.id)
     )
+    document.close()
     await bot.edit_message_text(
         chat_id=call.message.chat.id,
         message_id=call.message.message_id,

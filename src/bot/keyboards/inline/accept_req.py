@@ -9,13 +9,13 @@ __all__ = [
 ]
 
 
-async def accept(user_id):
+async def accept(r_id):
     keyboard = InlineKeyboardMarkup(row_width=2)
     keyboard.add(
-        InlineKeyboardButton(text="Подтвердить", callback_data=f"agree_{user_id}"),
-        InlineKeyboardButton(text="Отклонить", callback_data="000"),
+        InlineKeyboardButton(text="Подтвердить", callback_data=f"agree_{r_id}"),
+        InlineKeyboardButton(text="Отклонить", callback_data=f"denied_{r_id}"),
     )
     keyboard.add(
-        InlineKeyboardButton(text="Редактировать", callback_data="000"),
+        InlineKeyboardButton(text="Редактировать", callback_data=f"edit_{r_id}"),
     )
     return keyboard

@@ -7,7 +7,7 @@ from bot.states import TelegramUserRegistration
 
 
 def setup(dp: Dispatcher):
-    dp.register_message_handler(telegram_user.start_command, filters.CommandStart())
+    dp.register_message_handler(telegram_user.start_command, filters.CommandStart(), state="*")
     dp.register_callback_query_handler(telegram_user.reg_client, filters.Text("reg"),
                                        state=TelegramUserRegistration.registration)
     dp.register_callback_query_handler(telegram_user.handle_reg_menu, cd.reg.filter(),

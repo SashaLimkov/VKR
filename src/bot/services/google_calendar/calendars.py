@@ -37,6 +37,7 @@ async def get_calendars():
     current_calendars.pop(0)
     return current_calendars
 
+
 #
 if __name__ == '__main__':
     # print(create_calendar(calendar_name="Хирург"))

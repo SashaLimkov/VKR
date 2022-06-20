@@ -6,6 +6,16 @@ from docx2pdf import convert
 
 from usersupport.models import Client
 
+import secrets
+import string
+
+
+def generate_alphanum_crypt_string():
+    letters_and_digits = string.ascii_letters + string.digits
+    crypt_rand_string = ''.join(secrets.choice(
+        letters_and_digits) for i in range(5))
+    return crypt_rand_string
+
 
 def get_docx(user: Client):
     document = Document()
@@ -37,11 +47,10 @@ def get_docx(user: Client):
     p = document.add_paragraph(f"Жалобы пользователя: {user.additional if user.additional else ''}")
     p = document.add_paragraph(f"Предварительный диагноз и рекомендации: {user.prediction if user.prediction else ''}")
     document.save(f'{user.user.name}.docx')
-    convert(f'{user.user.name}.docx', f'{user.user.name}.pdf')
+    key = generate_alphanum_crypt_string()
+    convert(f'{user.user.name}.docx', f'{user.user.name} {key}.pdf')
     sleep(5)
+    os.remove(f'{user.user.name}.docx')
     # await asyncio.sleep(20)
     # file.close()
-    file = open(f'{user.user.name}.pdf', mode='rb')
-    # os.remove(f'{user.user.name}.docx')
-    return file
-
+    return f"{user.user.name} {key}.pdf"

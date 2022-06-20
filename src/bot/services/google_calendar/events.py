@@ -2,15 +2,16 @@ import datetime
 import time
 from pprint import pprint
 
+from bot.services.google_calendar.Drive import uploadFile
 from bot.services.google_calendar.Google import convert_to_rfc_datetime
 from bot.services.google_calendar.log_in import connect_to_calendar
 from usersupport.models import Doctor, Client
 
 
-def create_google_event(prediction: str, date_time: dict, doctor: Doctor, client:Client):
-    calendar_id = doctor.calendar_id
-    email = doctor.user.email
-    worker = connect_to_calendar()
+def create_google_event(prediction: str, date_time: dict, doctor: Doctor, file_name, client: Client):
+    calendar_id = doctor[0].calendar_id
+    file = uploadFile(file_name)
+    email = doctor[0].user.email
     event = {
         'summary': client.user.name,
         'description': prediction,
@@ -24,6 +25,12 @@ def create_google_event(prediction: str, date_time: dict, doctor: Doctor, client
                                                 selected_time=date_time["end_time"]),
             'timeZone': 'Europe/Moscow',
         },
+        'attachments': [
+            {
+                'fileUrl': file,
+                'title': f"Документ {client.user.name}"
+            }
+        ],
         'attendees': [
             {'email': email},
             {'email': client.user.email},
@@ -33,12 +40,18 @@ def create_google_event(prediction: str, date_time: dict, doctor: Doctor, client
             'overrides': [
                 {'method': 'email', 'minutes': 24 * 60},
                 {'method': 'email', 'minutes': 4},
+                {'method': 'popup', 'minutes': 5},
                 {'method': 'popup', 'minutes': 1},
             ],
         },
     }
-    event = worker.events().insert(calendarId=calendar_id,
+    worker = connect_to_calendar()
+    event = worker.events().insert(sendNotifications=True,
+                                   supportsAttachments=True,
+                                   sendUpdates='none',
+                                   calendarId=calendar_id,
                                    body=event).execute()
+    print(event)
     print(f'Event created {client.user.name}: {event.get("htmlLink")}')
     return event.get("htmlLink")
 
