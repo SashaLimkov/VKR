@@ -1,2 +1,4 @@
 venv
 .idea
+src/bot/services/google_calendar/google_secret.json
+src/bot/services/google_calendar/token files
