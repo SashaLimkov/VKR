@@ -1,4 +1,5 @@
 import datetime
+import os
 
 from aiogram import types
 from aiogram.dispatcher import FSMContext
@@ -13,6 +14,7 @@ from bot.states import RWorkerRegistration
 from bot.utils import cleaner
 from bot.keyboards import reply as rk
 from usersupport.models import UserRequest, TelegramUser, Doctor, Client
+from bot.keyboards import inline as ik
 
 
 async def setup_rworker_command(message: types.Message):
@@ -100,4 +102,32 @@ async def accept(call: types.CallbackQuery):
     await bot.send_message(
         chat_id=cli.user.user_id,
         text=hlink("Ссылка на запись", res)
+    )
+
+
+async def cancel(call: types.CallbackQuery):
+    r_id = call.data.replace("cancel_", "")
+    await call.answer()
+    r: UserRequest = await user_request.get_request(r_id)
+    cli: Client = r.client
+    await bot.edit_message_reply_markup(
+        chat_id=call.message.chat.id,
+        message_id=call.message.message_id,
+        reply_markup=None
+    )
+    os.remove(r.file_name)
+    await bot.send_message(
+        chat_id=cli.user.user_id,
+        text="Ваша запись отклонена"
+    )
+
+
+async def edit(call: types.CallbackQuery):
+    r_id = call.data.replace("edit_", "")
+    await call.answer()
+    r: UserRequest = await user_request.get_request(r_id)
+    cli: Client = r.client
+    await bot.send_message(
+        chat_id=call.message.chat.id,
+        text=f"Для изменения записи перейдите в {hlink('админ панель', 'http://127.0.0.1:8000/admin/usersupport/userrequest/')}."
     )

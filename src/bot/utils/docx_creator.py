@@ -19,6 +19,7 @@ def generate_alphanum_crypt_string():
 
 def get_docx(user: Client):
     document = Document()
+    print(user.prediction)
     document.add_paragraph(f"{user.user.name}")
     document.add_paragraph("")
     document.add_paragraph(f"'Контактные данные:'")

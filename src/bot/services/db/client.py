@@ -18,3 +18,9 @@ def add_client(user, gender, height, weight, age, ims):
     except Exception as e:
         print(e)
         return select_client(user)
+
+
+@sync_to_async
+def update_prediction(user, recomendations) -> Client:
+    user = Client.objects.filter(user=user).update(prediction=recomendations)
+    return user

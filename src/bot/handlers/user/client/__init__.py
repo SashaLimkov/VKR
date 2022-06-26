@@ -8,7 +8,6 @@ from bot.data import callback_data as cd
 
 def setup(dp: Dispatcher):
     dp.register_callback_query_handler(client_registration.start_client, filters.Text("client_reg"))
-    dp.register_message_handler(client_test.send_test, filters.Command("test"))
     dp.register_callback_query_handler(client_registration.start_register_client, cd.reg.filter(),
                                        state=ClientRegistration.registration)
     dp.register_callback_query_handler(client_registration.get_sex, filters.Text(startswith="sex_"),
@@ -34,4 +33,10 @@ def setup(dp: Dispatcher):
     dp.register_callback_query_handler(client_and_reg_worker.skip_test,
                                        filters.Text("skip"),
                                        state=ClientRequest.waiting_for_answer)
+    dp.register_callback_query_handler(client_test.start_test,
+                                       filters.Text("test"),
+                                       state=ClientRequest.waiting_for_answer)
+    dp.register_callback_query_handler(client_test.test_q, filters.Text(startswith="answer"),
+                                       state=ClientRequest.waiting_for_answer)
+
     # dp.register_message_handler(client_actions.get_client_addition, state=ClientRequest.additional)
